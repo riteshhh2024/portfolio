@@ -1,0 +1,74 @@
+---
+title: 'Kozmo SaaS Platform v1.0'
+description: 'Production-grade Applied AI SaaS platform for contract intelligence using multi-agent LLM systems, advanced RAG pipelines, and multi-model routing for enterprise-scale workflows.'
+image: '/project/zaxis.png'
+technologies: ['Python', 'ASP.NET', 'LangChain', 'LangGraph', 'OpenAI', 'Azure', 'FAISS', 'Chroma', 'SQL Server']
+github: ''
+live: ''
+timeline: 'Nov 2025 – Present'
+role: 'Software Developer'
+team: 'Optimus BT (OTBT Infotech Pvt. Ltd)'
+status: 'in-progress'
+featured: true
+challenges:
+  - 'Coordinating multiple specialized agents (planner–executor pattern) without state conflicts'
+  - 'Routing across OpenAI, Claude, and OSS models efficiently per task type'
+  - 'Achieving high retrieval accuracy across 10K+ contract records with hybrid SQL + vector search'
+  - 'Reducing LLM cost and latency while maintaining production reliability'
+learnings:
+  - 'Deep internals of LangChain/LangGraph for multi-agent orchestration'
+  - 'Hybrid RAG: combining structured SQL queries with FAISS/Chroma vector search'
+  - 'Multi-model LLM routing strategies for task-specific optimization'
+  - 'Production monitoring, evaluation pipelines, and semantic caching at enterprise scale'
+isPublished: true
+---
+
+## Overview
+
+Kozmo SaaS Platform v1.0 is a production-grade **Applied AI SaaS platform** built for contract intelligence. It leverages a multi-cloud, service-oriented architecture to process, analyze, and reason over large-scale enterprise contract datasets.
+
+<KozmoSaaSPipeline />
+
+## What I Built
+
+- Architected the full Applied AI SaaS platform for contract intelligence using **multi-cloud, service-oriented architecture** — designed for scalability and maintainability across enterprise workloads.
+
+- Built a **multi-agent LLM system using the planner–executor pattern** with LangChain/LangGraph as the orchestration backbone and Python agents executing specialized tasks. ASP.NET serves as the backend orchestration layer bridging the two.
+
+- Enabled **coordinated multi-agent workflows** where dedicated agents handle distinct tasks — extraction, validation, reasoning, and summarization — in a structured pipeline with defined handoffs between each stage.
+
+- Developed **advanced RAG pipelines** that combine SQL-based structured data retrieval with FAISS/Chroma vector search. This hybrid approach significantly improved response accuracy and grounding across contract datasets with **10,000+ records**.
+
+- Implemented **LLM routing across multiple models** (OpenAI, Claude, and open-source models) to assign each task to the most suitable model — reasoning tasks go to high-capability models, extraction tasks to faster/cheaper ones — optimizing cost and quality.
+
+- Deployed the system in production with **monitoring dashboards, evaluation pipelines, and semantic caching**, reducing overall LLM cost and latency by approximately **35%** while ensuring reliability at enterprise scale.
+
+## Architecture Highlights
+
+### Planner–Executor Multi-Agent Design
+
+The platform uses a two-layer agent architecture:
+
+- **Planner Agent** — breaks down a complex contract analysis request into sub-tasks and determines which specialized agent handles each.
+- **Executor Agents** — independent agents for extraction, validation, reasoning, and summarization. Each operates with its own context window and tool access.
+
+### Hybrid RAG Pipeline
+
+Rather than pure vector search, the RAG pipeline queries both:
+
+- **SQL Server** for structured contract metadata (dates, parties, clauses)
+- **FAISS / Chroma** vector stores for semantic similarity across contract content
+
+Results from both are merged and re-ranked before being sent to the LLM as context.
+
+### Multi-Model LLM Routing
+
+A routing layer inspects the task type and selects the most appropriate model:
+
+| Task | Model |
+|------|-------|
+| Complex Reasoning | OpenAI GPT-4 / Claude |
+| Fast Extraction | GPT-3.5 / OSS model |
+| Summarization | Mid-tier model |
+
+This reduced cost by ~35% without sacrificing output quality on reasoning-heavy tasks.

@@ -1,0 +1,79 @@
+---
+title: 'Kozmo AI Dashboard'
+description: 'Real-time AI-powered analytics dashboard with event-driven data pipelines, LLM-powered KPI generation (OpenAI, LLaMA, Mistral), time-series analytics, and explainable AI pipelines with structured JSON outputs.'
+image: '/project/LocalGovAI.webp'
+technologies: ['Python', 'Azure WebJobs', 'Azure Blob Storage', 'Azure Table Storage', 'OpenAI', 'LLaMA', 'Mistral', 'SQL Server']
+github: ''
+live: ''
+timeline: 'May 2025 – Oct 2025'
+role: 'Software Developer'
+team: 'Optimus BT (OTBT Infotech Pvt. Ltd)'
+status: 'completed'
+featured: true
+challenges:
+  - 'Processing thousands of contract records in real-time without pipeline bottlenecks'
+  - 'Generating structured, explainable KPI insights from unstructured contract data'
+  - 'Designing time-series snapshots (daily/weekly/monthly) for accurate trend forecasting'
+  - 'Ensuring enterprise-grade reliability and transparency in AI-generated outputs'
+learnings:
+  - 'Azure WebJobs and event-driven pipeline design at scale'
+  - 'Multi-LLM integration (OpenAI, LLaMA, Mistral) with task-specific routing'
+  - 'Explainable AI design using structured JSON output contracts'
+  - 'Time-series analytics patterns for business intelligence dashboards'
+isPublished: true
+---
+
+## Overview
+
+Kozmo AI Dashboard is a **real-time, AI-powered analytics dashboard** built on Azure infrastructure. It processes large-scale enterprise contract datasets and surfaces automated KPIs, trend analysis, and forecasting — all powered by multiple LLMs with a strong emphasis on explainability.
+
+<KozmoDashboardPipeline />
+
+## What I Built
+
+- Built **event-driven data pipelines** using Azure WebJobs that continuously process large-scale contract datasets — thousands of records — feeding a live analytics and reporting layer.
+
+- Developed a **real-time AI-powered analytics dashboard** backed by Azure WebJobs for pipeline orchestration, Azure Table Storage for fast structured reads, and Azure Blob Storage for document/artifact storage.
+
+- Developed **LLM-powered AI services** integrating OpenAI, LLaMA, and Mistral models for **automated KPI generation** — turning raw contract data into structured business insights without manual analyst intervention.
+
+- Implemented **time-series analytics pipelines** capturing daily, weekly, and monthly contract activity snapshots. These snapshots power trend analysis and short-term forecasting for stakeholder reporting.
+
+- Designed **explainable AI pipelines** that output structured JSON responses instead of freeform text, ensuring every AI-generated insight is traceable, auditable, and enterprise-grade reliable.
+
+## Architecture Highlights
+
+### Event-Driven Pipeline on Azure
+
+The pipeline runs on **Azure WebJobs** triggered by contract ingestion events:
+
+1. New contract data lands in Azure Blob Storage
+2. WebJob triggers, reads the contract, and routes it to the analysis pipeline
+3. LLM services generate KPIs and structured insights
+4. Results written to Azure Table Storage for fast dashboard queries
+
+### Multi-LLM Integration
+
+Three LLM providers were integrated and routed based on task requirements:
+
+| Model | Task |
+|-------|------|
+| OpenAI GPT | High-quality KPI generation and reasoning |
+| LLaMA (OSS) | Cost-efficient bulk extraction |
+| Mistral | Fast summarization tasks |
+
+### Explainable AI with JSON Output Contracts
+
+Every LLM call is constrained to a **structured JSON schema** output. This means:
+
+- AI-generated KPIs have a consistent, machine-readable format
+- Downstream systems can validate and audit every output
+- No freeform hallucinated text reaches the dashboard
+
+### Time-Series Snapshots
+
+Daily, weekly, and monthly aggregation jobs run on a scheduled cadence, storing contract trend data that powers:
+
+- Line charts showing contract volume over time
+- KPI trend cards with week-over-week deltas
+- Forecasting indicators based on rolling averages
