@@ -2,7 +2,6 @@
 
 import { catConfig } from '@/config/Cat';
 import { useEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
 
 // Simple pixel-art dog SVGs for each state
 const DOG_SPRITES: Record<string, string[]> = {
