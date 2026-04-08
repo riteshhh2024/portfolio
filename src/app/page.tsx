@@ -5,6 +5,7 @@ import Experience from '@/components/landing/Experience';
 import Github from '@/components/landing/Github';
 import HeroSidebar from '@/components/landing/HeroSidebar';
 import Journey from '@/components/landing/Journey';
+import LeetCode from '@/components/landing/LeetCode';
 import OpenSourceContributions from '@/components/landing/OpenSourceContributions';
 import Work from '@/components/landing/Projects';
 import Setup from '@/components/landing/Setup';
@@ -34,6 +35,7 @@ export default function page() {
               <OpenSourceContributions />
               <About />
               <Github />
+              <LeetCode />
               <CTA />
               <Setup />
               <Journey />
