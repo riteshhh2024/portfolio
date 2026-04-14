@@ -14,6 +14,7 @@ const query = `
       userCalendar(year: $year) {
         streak
         totalActiveDays
+        submissionCalendar
       }
       submitStats: submitStatsGlobal {
         acSubmissionNum {
@@ -39,7 +40,7 @@ export async function GET() {
         query,
         variables: { username: leetcodeConfig.username, year },
       }),
-      next: { revalidate: 3600 }, // cache for 1 hour
+      cache: 'no-store',
     });
 
     if (!response.ok) {
@@ -63,11 +64,22 @@ export async function GET() {
       total: acStats.find((s) => s.difficulty === 'All')?.count ?? 0,
     };
 
+    // Parse submission calendar: JSON string of { unix_timestamp: count }
+    let submissionCalendar: Record<string, number> = {};
+    try {
+      submissionCalendar = JSON.parse(
+        user.userCalendar?.submissionCalendar ?? '{}'
+      );
+    } catch {
+      submissionCalendar = {};
+    }
+
     return NextResponse.json({
       streak: user.userCalendar?.streak ?? 0,
       totalActiveDays: user.userCalendar?.totalActiveDays ?? 0,
       ranking: user.profile?.ranking ?? 0,
       solved,
+      submissionCalendar,
     });
   } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
