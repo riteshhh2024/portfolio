@@ -79,9 +79,9 @@ function buildCalendarGrid(submissionCalendar: Record<string, number>): {
       lastMonth = month;
     }
 
-    // Lookup count by unix timestamp (seconds)
+    // Lookup count by unix timestamp (seconds) — LeetCode keys are UTC midnight
     const unixSec = Math.floor(
-      new Date(cursor.getFullYear(), cursor.getMonth(), cursor.getDate()).getTime() / 1000
+      Date.UTC(cursor.getFullYear(), cursor.getMonth(), cursor.getDate()) / 1000
     );
     const count = submissionCalendar[String(unixSec)] ?? 0;
     totalSubmissions += count;
