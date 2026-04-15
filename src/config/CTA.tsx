@@ -12,7 +12,7 @@ export const ctaConfig = {
 
   // CTA button settings
   linkText: 'Get in Touch',
-  calLink: 'ritesh-prajapati/30min',
+  calLink: 'ritesh-ueu2wy',
 
   // Pre-text message
   preText: "Hey, you scrolled this far, let's talk.",
