@@ -1,3 +1,4 @@
+import GitGrowPipeline from '@/components/projects/GitGrowPipeline';
 import KozmoDashboardPipeline from '@/components/projects/KozmoDashboardPipeline';
 import KozmoSaaSPipeline from '@/components/projects/KozmoSaaSPipeline';
 import Bun from '@/components/technologies/Bun';
@@ -388,4 +389,5 @@ export const ProjectComponents = {
   Learnings,
   KozmoSaaSPipeline,
   KozmoDashboardPipeline,
+  GitGrowPipeline,
 };

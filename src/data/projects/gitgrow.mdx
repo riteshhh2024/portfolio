@@ -1,0 +1,211 @@
+---
+title: 'GitGrow Agent - Developer Productivity Assistant'
+description: 'A CLI-based developer productivity agent that scans real project changes, auto-updates documentation, generates clean commit messages, and supports a safer commit-and-push workflow for professional GitHub presence.'
+image: '/project/gitgrow.png'
+technologies: ['Python', 'Typer', 'Rich', 'OpenAI', 'GitPython', 'PyYAML', 'Pytest', 'Hatch']
+github: 'https://github.com/riteshhh2024/gitgrow'
+live: ''
+timeline: '2 months'
+role: 'Full Stack Developer'
+team: 'Solo'
+status: 'in-progress'
+featured: true
+challenges:
+  - 'Accurate diff classification across diverse project types'
+  - 'Safe documentation updates without overwriting developer content'
+  - 'Generating meaningful Conventional Commit messages from raw diffs'
+  - 'Designing a preview-approve workflow that respects developer autonomy'
+  - 'Integrating GitHub CLI auth securely without storing raw tokens'
+learnings:
+  - 'Git internals and diff parsing with GitPython'
+  - 'CLI agent design patterns with Typer and Rich'
+  - 'LLM prompt engineering for structured code analysis'
+  - 'Safe file mutation strategies for documentation updates'
+  - 'Conventional Commit specification and automation'
+  - 'Developer workflow orchestration and pipeline design'
+isPublished: true
+---
+
+# GitGrow Agent - Developer Productivity Assistant
+
+## Overview
+
+GitGrow Agent is a developer productivity assistant designed to work inside a Git repository. It scans real project changes, understands what was built, helps update project documentation, generates clean commit messages, and supports a safer commit-and-push workflow.
+
+<GitGrowPipeline />
+
+The goal is not to create fake GitHub activity. The goal is to help developers build a professional and consistent GitHub presence through **real work**, **better documentation**, and **cleaner project history**.
+
+## Problem Statement
+
+Developers often write code but forget to maintain the supporting project information around that code. This creates several problems:
+
+- **Stale documentation**: README files, changelogs, API docs, and setup instructions go out of date after code changes.
+- **Unclear commit history**: Repositories are filled with messages like `update`, `fix`, `final`, or `changes`.
+- **Invisible progress**: Students, freelancers, and job seekers need visible proof of consistent and meaningful project activity.
+- **Lost context**: Developers lose context when returning to projects after days or weeks.
+- **Documentation drift**: Teams suffer when documentation diverges from the actual codebase.
+
+## Solution
+
+GitGrow follows a simple, transparent workflow:
+
+```
+Code changes → scan diff → classify work → update docs → generate commit → preview → approve → commit/push → progress log
+```
+
+The agent supports the developer without silently taking control. By default, GitGrow **previews changes and asks for approval** before committing or pushing.
+
+## Key Features
+
+### Smart Commit
+Generates professional **Conventional Commit** messages from the actual git diff. No more vague commit messages — every commit tells a clear story about what changed and why.
+
+### DocSync
+Automatically updates **README**, **CHANGELOG**, **API docs**, **setup docs**, and **.env.example** when major changes are detected. Documentation stays in sync with the code.
+
+### Project Scanner
+Reads **git status**, **diff**, **logs**, **changed files**, **dependencies**, **routes**, and **environment variables** to build a complete picture of the project state.
+
+### Safety Checker
+Runs **tests**, **lint commands**, **build commands**, and **secret checks** before committing. Ensures code quality gates are met before any changes are pushed.
+
+### DevLog
+Creates daily or weekly **progress logs** that summarize real development activity. Helps developers track what they built and when.
+
+### GitHub Auth
+Uses **GitHub CLI** for secure authentication without storing raw tokens. Security-first approach to credential management.
+
+### Preview System
+Shows all proposed docs, commit messages, and files before any action is taken. The developer always has the final say.
+
+## Tech Stack
+
+- **Python 3.10+** — Core language, ideal for AI-heavy automation and file processing
+- **Typer** — Modern CLI framework with automatic help generation
+- **Rich** — Beautiful terminal UI with progress bars, tables, and syntax highlighting
+- **Questionary** — Interactive terminal prompts for user input
+- **PyYAML** — Configuration management
+- **GitPython + subprocess** — Git operations and diff analysis
+- **OpenAI API** — AI-powered commit message generation and documentation analysis
+- **GitHub CLI** — Secure authentication flow
+- **Pytest** — Testing framework
+- **Hatch** — Modern Python project management and packaging
+
+## Technical Implementation
+
+### Agent Workflow Pipeline
+
+The core pipeline processes changes through a structured series of stages:
+
+1. **Scan Phase** — Read git status, diff, and project metadata
+2. **Classification Phase** — Categorize changes by type (feature, fix, refactor, docs, etc.)
+3. **Documentation Phase** — Detect which docs need updates based on change classification
+4. **Generation Phase** — Create commit messages and documentation patches
+5. **Preview Phase** — Present all proposed changes for developer review
+6. **Execution Phase** — Apply approved changes, commit, and optionally push
+
+### Diff Classification Engine
+
+The scanner reads the raw git diff and classifies each change:
+
+- **New files** — Feature additions, test files, configuration
+- **Modified files** — Bug fixes, refactors, enhancements
+- **Deleted files** — Cleanup, deprecation
+- **Dependency changes** — Package updates, new dependencies
+- **Environment changes** — New env variables, config updates
+
+### Safe Documentation Updates
+
+DocSync follows strict boundaries to avoid destructive updates:
+
+- Never rewrites the entire README
+- Preserves existing developer-written sections
+- Only appends or updates relevant sections (features, API, setup, changelog)
+- Uses a diff-based approach to minimize changes
+- Timestamps are not updated unless meaningful content changes
+
+### Example Agent Behavior
+
+Scenario: a developer adds JWT authentication, login API routes, auth middleware, and tests.
+
+```
+GitGrow detects:
+- New auth middleware
+- New login API route
+- New JWT_SECRET env variable
+- New auth tests
+
+DocSync suggestions:
+- Update README features
+- Update .env.example
+- Update CHANGELOG.md
+- Add auth API docs
+
+Suggested commit:
+feat(auth): add JWT authentication flow
+```
+
+## User Setup Flow
+
+```bash
+pip install gitgrow
+
+cd my-project
+gitgrow init
+gitgrow auth github
+gitgrow scan
+gitgrow commit
+```
+
+1. Install GitGrow using pip
+2. Open a local GitHub project repository
+3. Run `gitgrow init` to create project configuration
+4. Run `gitgrow auth github` to connect securely through GitHub CLI
+5. Run `gitgrow scan` to inspect project changes
+6. Run `gitgrow commit` to update docs, generate a commit, preview, and commit after approval
+
+## What GitGrow Should Not Do
+
+GitGrow is designed to be safe and honest by default:
+
+- ❌ Create meaningless empty commits
+- ❌ Update README only to change a timestamp
+- ❌ Push code without user approval by default
+- ❌ Store GitHub tokens in plain text
+- ❌ Rewrite the entire README without safe boundaries
+- ❌ Replace developer judgment
+
+## What I Learned
+
+Building GitGrow taught me:
+
+- **Git internals**: Deep understanding of diffs, staging, and commit workflows
+- **CLI Agent Design**: Building interactive, approval-based developer tools
+- **LLM Integration**: Prompt engineering for structured, predictable AI outputs
+- **Developer Experience**: Designing workflows that augment rather than replace developers
+- **Safe Automation**: Building guardrails that prevent destructive actions
+- **Python Packaging**: Modern packaging with Hatch for PyPI distribution
+- **Security Practices**: Token-free authentication flows with GitHub CLI
+
+## Impact
+
+GitGrow helps developers by improving the workflow around coding, documentation, and GitHub presence.
+
+**Key Benefits:**
+- **Time Savings**: Reduces manual README, changelog, and commit-message work
+- **Documentation Quality**: Keeps docs updated when the project changes
+- **Professional History**: Improves commit history with clear, meaningful messages
+- **Visible Progress**: Creates meaningful GitHub activity from real development
+- **Context Preservation**: Daily and weekly progress logs help when returning to projects
+- **Portfolio Quality**: Improves portfolio for students, job seekers, and open-source contributors
+- **Disciplined Development**: Encourages consistency without promoting fake commits
+
+## Future Possibilities
+
+- **GitHub App** for pull request summaries and documentation checks
+- **npm wrapper** for developers who prefer `npm install -g gitgrow`
+- **Portfolio mode** for students and job seekers
+- **Team mode** for documentation enforcement in pull requests
+- **Local model support** for offline commit and documentation generation
+- **Weekly engineering reports** and project health summaries

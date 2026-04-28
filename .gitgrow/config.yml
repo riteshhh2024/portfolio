@@ -1,0 +1,38 @@
+version: 1
+project:
+  name: portfolio
+  type: python
+  package_manager: npm
+auth:
+  github:
+    connected: true
+    method: gh-cli
+    username: riteshhh2024
+git:
+  remote: origin
+  default_branch: main
+  auto_push: false
+  remote_url: https://github.com/riteshhh2024/portfolio.git
+features:
+  smart_commit: true
+  docsync: true
+  devlog: true
+  changelog: true
+docs:
+  readme: true
+  changelog: true
+  api_docs: true
+  env_example: true
+  safe_blocks_only: true
+checks:
+  enabled: true
+  before_commit: []
+safety:
+  require_confirmation: true
+  allow_empty_commits: false
+  block_secrets: true
+  max_files_without_confirmation: 25
+ai:
+  enabled: true
+  provider: openai
+  model: null

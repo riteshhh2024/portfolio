@@ -1,5 +1,6 @@
 import Azure from '@/components/technologies/Azure';
 import DotNet from '@/components/technologies/DotNet';
+import Github from '@/components/technologies/Github';
 import LangChain from '@/components/technologies/LangChain';
 import OpenAI from '@/components/technologies/OpenAI';
 import Python from '@/components/technologies/Python';
@@ -44,5 +45,22 @@ export const projects: Project[] = [
     details: true,
     projectDetailsPageSlug: '/projects/kozmo-dashboard',
     isWorking: true,
+  },
+  {
+    title: 'GitGrow Agent',
+    description:
+      'Developer Productivity Assistant - A Python CLI agent that scans real Git changes, auto-updates project documentation, generates Conventional Commit messages, and supports a preview-approve workflow for professional GitHub presence',
+    image: '/project/gitgrow.png',
+    link: '#',
+    technologies: [
+      { name: 'Python', icon: <Python key="python" /> },
+      { name: 'OpenAI / LLMs', icon: <OpenAI key="openai" /> },
+      { name: 'GitHub CLI', icon: <Github key="github" /> },
+    ],
+    github: 'https://github.com/riteshhh2024/gitgrow',
+    live: '',
+    details: true,
+    projectDetailsPageSlug: '/projects/gitgrow',
+    isWorking: false,
   },
 ];

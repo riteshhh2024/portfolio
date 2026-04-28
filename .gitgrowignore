@@ -1,0 +1,13 @@
+# GitGrow ignore file
+# Files and patterns gitgrow will not scan or modify
+
+node_modules/
+.env
+.env.*
+dist/
+build/
+*.lock
+*.log
+__pycache__/
+.venv/
+venv/
