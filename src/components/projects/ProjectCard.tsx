@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/dialog';
 import { TiltCard } from '@/components/ui/tilt-card';
 import { type Project } from '@/types/project';
-import { Link, useRouter } from 'next-view-transitions';
+import { Link } from 'next-view-transitions';
 import Image from 'next/image';
 import React, { useState } from 'react';
 
@@ -29,18 +29,17 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project }: ProjectCardProps) {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
-  const router = useRouter();
-
-  const handleCardClick = () => {
-    router.push(project.projectDetailsPageSlug);
-  };
 
   return (
     <TiltCard>
-      <Card
-        onClick={handleCardClick}
-        className="group h-full w-full cursor-pointer overflow-hidden border-gray-100 p-0 shadow-none transition-all dark:border-gray-800"
-      >
+      <Card className="group relative h-full w-full overflow-hidden border-gray-100 p-0 shadow-none transition-all dark:border-gray-800">
+        {/* Stretched Link to make whole card clickable */}
+        <Link
+          href={project.projectDetailsPageSlug}
+          className="absolute inset-0 z-0"
+          aria-label={`View details for ${project.title}`}
+        />
+
         <CardHeader className="p-0">
           <div
             className="group relative overflow-hidden"
@@ -55,13 +54,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
             />
             {project.video && (
               <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-                <DialogTrigger
-                  asChild
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                >
-                  <div className="absolute inset-0 flex cursor-pointer items-center justify-center bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100 hover:backdrop-blur-xs">
+                <DialogTrigger asChild>
+                  <div className="absolute inset-0 z-10 flex cursor-pointer items-center justify-center bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100 hover:backdrop-blur-xs">
                     <button
                       className="flex size-16 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm transition-colors duration-200 group-hover:cursor-pointer hover:bg-white/30"
                       title="Play Video"
@@ -70,10 +64,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     </button>
                   </div>
                 </DialogTrigger>
-                <DialogContent
-                  className="w-full max-w-4xl border-0 p-0"
-                  onClick={(e) => e.stopPropagation()}
-                >
+                <DialogContent className="z-50 w-full max-w-4xl border-0 p-0">
                   <div className="aspect-video w-full">
                     <video
                       className="h-full w-full rounded-lg object-cover"
@@ -90,26 +81,25 @@ export function ProjectCard({ project }: ProjectCardProps) {
           </div>
         </CardHeader>
 
-        <CardContent className="px-3 pt-2 pb-1.5">
+        <CardContent className="relative z-10 px-3 pt-2 pb-1.5">
           <div className="space-y-2">
             {/* Project Header - Title and Icons */}
             <div className="flex items-center justify-between gap-4">
               <Link
                 href={project.projectDetailsPageSlug}
-                onClick={(e) => e.stopPropagation()}
+                className="relative z-20"
               >
                 <h3 className="group-hover:text-primary text-base leading-tight font-semibold hover:cursor-pointer">
                   {project.title}
                 </h3>
               </Link>
-              <div className="flex items-center gap-2">
+              <div className="relative z-20 flex items-center gap-2">
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Link
                       className="text-secondary hover:text-primary flex size-6 items-center justify-center transition-colors"
                       href={project.link}
                       target="_blank"
-                      onClick={(e) => e.stopPropagation()}
                     >
                       <Website />
                     </Link>
@@ -131,14 +121,11 @@ export function ProjectCard({ project }: ProjectCardProps) {
               <h4 className="text-secondary mb-1.5 text-xs font-medium tracking-wide uppercase">
                 Stack
               </h4>
-              <div className="flex flex-wrap gap-2">
+              <div className="relative z-20 flex flex-wrap gap-2">
                 {project.technologies.map((technology, index) => (
                   <Tooltip key={index}>
                     <TooltipTrigger asChild>
-                      <div
-                        className="size-5 transition-all duration-300 hover:scale-120 hover:cursor-pointer"
-                        onClick={(e) => e.stopPropagation()}
-                      >
+                      <div className="size-5 transition-all duration-300 hover:scale-120 hover:cursor-pointer">
                         {technology.icon}
                       </div>
                     </TooltipTrigger>
@@ -153,7 +140,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         </CardContent>
 
         {project.details && (
-          <CardFooter className="flex justify-between px-3 pt-0 pb-2">
+          <CardFooter className="relative z-10 flex justify-between px-3 pt-0 pb-2">
             <div
               className={`flex items-center gap-1 rounded-md px-2 py-1 text-xs ${
                 project.isWorking
@@ -175,8 +162,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             </div>
             <Link
               href={project.projectDetailsPageSlug}
-              className="text-secondary hover:text-primary flex items-center gap-2 text-sm underline-offset-4 transition-colors hover:underline"
-              onClick={(e) => e.stopPropagation()}
+              className="text-secondary hover:text-primary relative z-20 flex items-center gap-2 text-sm underline-offset-4 transition-colors hover:underline"
             >
               View Details <ArrowRight className="size-4" />
             </Link>
