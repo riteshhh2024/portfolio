@@ -14,9 +14,8 @@ import {
 } from '@/components/ui/dialog';
 import { TiltCard } from '@/components/ui/tilt-card';
 import { type Project } from '@/types/project';
-import { Link } from 'next-view-transitions';
+import { Link, useRouter } from 'next-view-transitions';
 import Image from 'next/image';
-import NextLink from 'next/link';
 import React, { useState } from 'react';
 
 import ArrowRight from '../svgs/ArrowRight';
@@ -30,10 +29,18 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project }: ProjectCardProps) {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const router = useRouter();
+
+  const handleCardClick = () => {
+    router.push(project.projectDetailsPageSlug);
+  };
 
   return (
     <TiltCard>
-      <Card className="group h-full w-full overflow-hidden border-gray-100 p-0 shadow-none transition-all dark:border-gray-800">
+      <Card
+        onClick={handleCardClick}
+        className="group h-full w-full cursor-pointer overflow-hidden border-gray-100 p-0 shadow-none transition-all dark:border-gray-800"
+      >
         <CardHeader className="p-0">
           <div
             className="group relative overflow-hidden"
@@ -48,7 +55,12 @@ export function ProjectCard({ project }: ProjectCardProps) {
             />
             {project.video && (
               <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-                <DialogTrigger asChild>
+                <DialogTrigger
+                  asChild
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                >
                   <div className="absolute inset-0 flex cursor-pointer items-center justify-center bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100 hover:backdrop-blur-xs">
                     <button
                       className="flex size-16 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm transition-colors duration-200 group-hover:cursor-pointer hover:bg-white/30"
@@ -58,7 +70,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     </button>
                   </div>
                 </DialogTrigger>
-                <DialogContent className="w-full max-w-4xl border-0 p-0">
+                <DialogContent
+                  className="w-full max-w-4xl border-0 p-0"
+                  onClick={(e) => e.stopPropagation()}
+                >
                   <div className="aspect-video w-full">
                     <video
                       className="h-full w-full rounded-lg object-cover"
@@ -79,18 +94,22 @@ export function ProjectCard({ project }: ProjectCardProps) {
           <div className="space-y-2">
             {/* Project Header - Title and Icons */}
             <div className="flex items-center justify-between gap-4">
-              <NextLink href={project.projectDetailsPageSlug}>
+              <Link
+                href={project.projectDetailsPageSlug}
+                onClick={(e) => e.stopPropagation()}
+              >
                 <h3 className="group-hover:text-primary text-base leading-tight font-semibold hover:cursor-pointer">
                   {project.title}
                 </h3>
-              </NextLink>
+              </Link>
               <div className="flex items-center gap-2">
                 <Tooltip>
-                  <TooltipTrigger>
+                  <TooltipTrigger asChild>
                     <Link
                       className="text-secondary hover:text-primary flex size-6 items-center justify-center transition-colors"
                       href={project.link}
                       target="_blank"
+                      onClick={(e) => e.stopPropagation()}
                     >
                       <Website />
                     </Link>
@@ -99,22 +118,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     <p>View Website</p>
                   </TooltipContent>
                 </Tooltip>
-                {/* <Tooltip>
-                <TooltipTrigger>
-                  {project.github && (
-                    <Link
-                      className="text-secondary hover:text-primary flex size-6 items-center justify-center transition-colors"
-                      href={project.github}
-                      target="_blank"
-                    >
-                      <Github />
-                    </Link>
-                  )}
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>View GitHub</p>
-                </TooltipContent>
-              </Tooltip> */}
               </div>
             </div>
 
@@ -131,8 +134,11 @@ export function ProjectCard({ project }: ProjectCardProps) {
               <div className="flex flex-wrap gap-2">
                 {project.technologies.map((technology, index) => (
                   <Tooltip key={index}>
-                    <TooltipTrigger>
-                      <div className="size-5 transition-all duration-300 hover:scale-120 hover:cursor-pointer">
+                    <TooltipTrigger asChild>
+                      <div
+                        className="size-5 transition-all duration-300 hover:scale-120 hover:cursor-pointer"
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         {technology.icon}
                       </div>
                     </TooltipTrigger>
@@ -167,12 +173,13 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 </>
               )}
             </div>
-            <NextLink
+            <Link
               href={project.projectDetailsPageSlug}
               className="text-secondary hover:text-primary flex items-center gap-2 text-sm underline-offset-4 transition-colors hover:underline"
+              onClick={(e) => e.stopPropagation()}
             >
               View Details <ArrowRight className="size-4" />
-            </NextLink>
+            </Link>
           </CardFooter>
         )}
       </Card>
