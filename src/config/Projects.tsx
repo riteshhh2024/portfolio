@@ -61,6 +61,23 @@ export const projects: Project[] = [
     live: '',
     details: true,
     projectDetailsPageSlug: '/projects/gitgrow',
+    isWorking: true,
+  },
+  {
+    title: 'Agentic RAG Solution Studio',
+    description:
+      'Enterprise GenAI POC Builder - A solution-architect workbench for building, testing, and presenting enterprise RAG solutions with controlled agent workflows, grounding verification, evaluation metrics, provider comparison, and customer-ready report generation',
+    image: '/project/agentic-rag-studio.png',
+    link: '#',
+    technologies: [
+      { name: 'Python', icon: <Python key="python" /> },
+      { name: 'LangChain', icon: <LangChain key="langchain" /> },
+      { name: 'OpenAI / LLMs', icon: <OpenAI key="openai" /> },
+    ],
+    github: 'https://github.com/riteshhh2024/Agentic-Rag-Studio-v1.01',
+    live: '',
+    details: true,
+    projectDetailsPageSlug: '/projects/agentic-rag-studio',
     isWorking: false,
   },
 ];

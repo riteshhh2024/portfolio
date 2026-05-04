@@ -1,3 +1,4 @@
+import AgenticRAGPipeline from '@/components/projects/AgenticRAGPipeline';
 import GitGrowPipeline from '@/components/projects/GitGrowPipeline';
 import KozmoDashboardPipeline from '@/components/projects/KozmoDashboardPipeline';
 import KozmoSaaSPipeline from '@/components/projects/KozmoSaaSPipeline';
@@ -390,4 +391,5 @@ export const ProjectComponents = {
   KozmoSaaSPipeline,
   KozmoDashboardPipeline,
   GitGrowPipeline,
+  AgenticRAGPipeline,
 };

@@ -1,0 +1,207 @@
+---
+title: 'Agentic RAG Solution Studio — Enterprise GenAI POC Builder'
+description: 'An enterprise GenAI proof-of-concept builder that helps solution architects convert customer documents into a working RAG + agentic AI assistant with evaluation metrics, provider comparison, and customer-ready report generation.'
+image: '/project/agentic-rag-studio.png'
+technologies: ['Python', 'FastAPI', 'LangChain', 'LangGraph', 'ChromaDB', 'FAISS', 'Pydantic', 'SQLite', 'Docker', 'Pytest']
+github: 'https://github.com/riteshhh2024/Agentic-Rag-Studio-v1.01'
+live: ''
+timeline: '3 months'
+role: 'Full Stack Developer'
+team: 'Solo'
+status: 'in-progress'
+featured: true
+challenges:
+  - 'Building a controlled agent workflow that balances autonomy with explainability'
+  - 'Designing a configurable RAG pipeline supporting multiple chunking, embedding, and retrieval strategies'
+  - 'Implementing grounding verification to detect hallucinations in generated answers'
+  - 'Comparing inference providers on cost, latency, and quality metrics in a fair and repeatable way'
+  - 'Generating customer-ready POC reports that summarize architecture, metrics, and recommendations'
+learnings:
+  - 'LangGraph-style controlled agent orchestration with observable state transitions'
+  - 'RAG pipeline engineering: chunking strategies, embedding models, reranking, and citation generation'
+  - 'Grounding verification and faithfulness evaluation for enterprise AI reliability'
+  - 'Multi-provider inference comparison with latency, cost, and quality benchmarking'
+  - 'Building evaluation frameworks for RAG systems with golden-question testing'
+  - 'Enterprise GenAI architecture design from document ingestion to report generation'
+isPublished: true
+---
+
+# Agentic RAG Solution Studio — Enterprise GenAI POC Builder
+
+## Overview
+
+Agentic RAG Solution Studio is an enterprise GenAI proof-of-concept builder that helps solution architects convert customer documents into a working RAG + agentic AI assistant. The platform supports use-case intake, document ingestion, configurable retrieval, controlled agent workflows, evaluation metrics, inference provider comparison, and customer-ready report generation.
+
+<AgenticRAGPipeline />
+
+Instead of building a simple PDF chatbot, this project is designed as a **complete solution architect workbench**. A user can create a customer use case, upload documents such as policies, FAQs, contracts, or technical guides, configure RAG settings, ask questions through a controlled agent workflow, evaluate answer quality, compare inference providers, and generate a technical POC report.
+
+The system focuses on **reliability and explainability** by returning grounded answers with citations, showing retrieved chunks, verifying whether the response is supported by source documents, classifying business risk, and tracking metrics such as latency, token usage, estimated cost, faithfulness, and hallucination risk.
+
+## Problem Statement
+
+Many organizations want to adopt GenAI, but they struggle with practical implementation questions:
+
+- How should documents be uploaded, chunked, embedded, and searched?
+- How can AI answers be grounded with citations?
+- How can hallucination risk be reduced?
+- How can agent workflows be controlled and observed?
+- How can teams measure answer quality, latency, and cost?
+- How can a customer-ready POC report be generated?
+
+This project solves those problems by providing a structured platform for building, testing, and presenting enterprise RAG solutions.
+
+## Key Features
+
+### Use Case Intake
+Create customer/demo use cases with industry, business problem, target users, success criteria, and answer style. Each use case drives the entire downstream pipeline.
+
+### Document Ingestion
+Upload and process documents such as Markdown, TXT, and PDF files. The ingestion pipeline handles parsing, metadata extraction, and storage.
+
+### Chunking & Embeddings
+Split documents into chunks, generate embeddings, and store them in a vector database. Supports configurable chunk size, overlap, and embedding model selection.
+
+### Configurable RAG
+Configure chunk size, overlap, top-k retrieval, vector store (ChromaDB/FAISS), reranking, and citation settings. Every parameter is tunable per use case.
+
+### Agentic Workflow
+Run questions through a controlled workflow: intent analysis, retrieval, answer generation, grounding verification, risk classification, and final response. The agent follows a deterministic graph — no free-running autonomous loops.
+
+### Citations & Grounding
+Return answers with source document references and chunk metadata. Grounding verification checks whether the generated answer is actually supported by retrieved context.
+
+### Risk Classification
+Flag medium/high-risk responses such as refund exceptions, legal clauses, production actions, or sensitive decisions. Helps enterprise teams identify answers that require human review.
+
+### Evaluation Dashboard
+Run golden-question evaluations and track faithfulness, relevance, hallucination risk, latency, and cost. Provides a structured way to benchmark RAG quality over time.
+
+### Provider Comparison
+Compare inference providers (Ollama local models vs. OpenAI cloud) based on latency, cost, and quality metrics. Helps teams make informed decisions about model selection.
+
+### POC Report Generation
+Generate customer-ready technical reports summarizing architecture, documents, RAG configuration, sample answers, metrics, and recommendations.
+
+## Tech Stack
+
+- **FastAPI + Python** — Backend API with Pydantic validation and type safety
+- **LangChain** — RAG pipeline orchestration, document loaders, text splitters, and retrieval chains
+- **LangGraph-style Workflow** — Controlled agent orchestration with observable state transitions
+- **ChromaDB / FAISS** — Persistent vector stores for embedding storage and similarity search
+- **SQLite** — Relational database for use cases, documents, configs, and evaluation runs
+- **Pydantic** — Request/response validation and structured data models
+- **Docker + Docker Compose** — Containerized deployment for reproducible environments
+- **Pytest** — Test framework for unit and integration testing
+
+## Technical Implementation
+
+### System Architecture
+
+The system follows a clean 4-layer architecture:
+
+```
+Frontend Studio UI
+    |
+    v
+FastAPI Backend
+    |
+    +-- Use Case Service
+    +-- Document Ingestion Service
+    +-- RAG Service
+    +-- Agent Orchestrator
+    +-- Evaluation Service
+    +-- Inference Provider Service
+    +-- Report Generator
+    +-- Metrics Logger
+    |
+    v
+Database (SQLite) + Vector Store (ChromaDB/FAISS)
+    |
+    v
+AI Providers (Ollama Local + OpenAI Cloud)
+```
+
+### Controlled Agent Workflow
+
+The system uses a **controlled agent workflow** instead of a free-running autonomous agent. Each question passes through a deterministic pipeline:
+
+```
+User Question
+  → Intent Analyzer        (classify question intent and scope)
+  → Retriever              (vector search with top-k and reranking)
+  → Answer Generator       (LLM generation with retrieved context)
+  → Grounding Verifier     (check answer against source documents)
+  → Risk Classifier        (flag high-risk business responses)
+  → Final Responder        (cited answer with metadata)
+  → Metrics Logger         (latency, tokens, cost, faithfulness)
+```
+
+This makes the AI workflow **more reliable, explainable, and easier to debug** than free-running agent architectures.
+
+### RAG Pipeline
+
+The retrieval pipeline is fully configurable:
+
+| Parameter | Options |
+|-----------|---------|
+| Chunk Size | 256 – 2048 tokens |
+| Chunk Overlap | 0 – 512 tokens |
+| Embedding Model | OpenAI text-embedding, Ollama local |
+| Vector Store | ChromaDB (persistent), FAISS (in-memory) |
+| Top-K Retrieval | 1 – 20 chunks |
+| Reranking | Cross-encoder reranking, MMR diversity |
+| Citations | Source document + chunk metadata |
+
+### Grounding Verification
+
+Every generated answer is checked against the retrieved source documents:
+
+1. Extract claims from the generated response
+2. Compare each claim against retrieved chunks
+3. Calculate a faithfulness score (0–1)
+4. Flag unsupported claims as potential hallucinations
+5. Classify overall response risk level
+
+### Evaluation Framework
+
+The evaluation system supports golden-question testing:
+
+- **Faithfulness**: Is the answer grounded in source documents?
+- **Answer Relevance**: Does the answer address the user's question?
+- **Hallucination Risk**: Does the answer contain unsupported claims?
+- **Latency**: End-to-end response time per question
+- **Token Usage**: Input/output token consumption
+- **Estimated Cost**: Per-query cost across providers
+
+## What I Learned
+
+Building this project taught me:
+
+- **Agent Orchestration**: Designing controlled, observable agent workflows that balance autonomy with reliability
+- **RAG Engineering**: Understanding the full pipeline from document ingestion to cited answer generation
+- **Evaluation Design**: Building metrics frameworks that measure what matters for enterprise AI
+- **Enterprise AI Thinking**: Approaching GenAI as a solution architect rather than a hobbyist
+- **Grounding & Safety**: Implementing verification layers that catch hallucinations before they reach users
+- **Multi-Provider Strategy**: Comparing local vs. cloud inference for cost, quality, and latency tradeoffs
+
+## Impact
+
+Agentic RAG Solution Studio demonstrates how enterprise teams can move from business problem to working GenAI proof-of-concept.
+
+**Key Benefits:**
+- **Structured Approach**: Moves from ad-hoc chatbot experiments to a repeatable POC methodology
+- **Configurable Pipeline**: Every RAG parameter is tunable, enabling systematic optimization
+- **Quality Assurance**: Built-in evaluation metrics ensure answer quality is measurable and improvable
+- **Enterprise Ready**: Risk classification, grounding verification, and citation support meet enterprise requirements
+- **Provider Agnostic**: Compare local and cloud models to find the right balance of cost and quality
+- **Customer Deliverable**: Automated report generation creates professional POC documentation
+
+## Future Possibilities
+
+- **Multi-modal RAG** supporting images, tables, and structured data extraction
+- **Advanced agent patterns** with tool calling, multi-step reasoning, and planning
+- **Automated prompt optimization** using DSPy-style compilation
+- **Real-time streaming** for long-form answer generation
+- **Team collaboration** features for multi-architect POC projects
+- **Production deployment templates** for moving POCs to production
