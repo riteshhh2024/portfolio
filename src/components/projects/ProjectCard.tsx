@@ -52,6 +52,17 @@ export function ProjectCard({ project }: ProjectCardProps) {
               width={1920}
               height={1080}
             />
+
+            {project.title === 'Agentic RAG Solution Studio' && (
+              <div className="absolute top-3 right-3 z-20 flex items-center gap-2">
+                <div className="relative flex animate-bounce items-center justify-center rounded-2xl rounded-br-sm bg-black px-2.5 py-1 text-[10px] font-bold text-white shadow-md dark:bg-white dark:text-black">
+                  New!!
+                </div>
+                <div className="flex items-center gap-1 rounded-full border border-orange-500/30 bg-white/80 px-2 py-1 text-[13px] font-bold text-orange-600 backdrop-blur-md dark:bg-black/80 dark:text-orange-500">
+                  🔥
+                </div>
+              </div>
+            )}
             {project.video && (
               <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                 <DialogTrigger asChild>
