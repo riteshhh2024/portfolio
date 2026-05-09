@@ -1,8 +1,11 @@
+import AWS from '@/components/technologies/AWS';
 import Azure from '@/components/technologies/Azure';
 import DotNet from '@/components/technologies/DotNet';
+import JavaScript from '@/components/technologies/JavaScript';
 import LangChain from '@/components/technologies/LangChain';
 import OpenAI from '@/components/technologies/OpenAI';
 import Python from '@/components/technologies/Python';
+import ReactIcon from '@/components/technologies/ReactIcon';
 import SqlServer from '@/components/technologies/SqlServer';
 
 export interface Technology {
@@ -112,5 +115,59 @@ export const experiences: Experience[] = [
       },
     ],
     website: 'https://sumathihealthcare.com/',
+  },
+  {
+    isCurrent: false,
+    company: 'Traegen Systems Limited',
+    position: 'Associate Engineer',
+    location: 'Remote',
+    image: '/assets/logo.png',
+    description: [
+      'Developed ASP.NET and SQL Server backend systems for ITMAS, processing millions of test records with secure and scalable data storage',
+      'Built responsive JavaScript, HTML, and CSS interfaces that helped engineers filter, visualize, and interact with real-time test data',
+      'Used Azure Databricks for data filtering, cleaning, and visualization, reducing test validation time by 40%',
+      'Optimized SQL queries and database indexes, improving data retrieval performance by 20% and reducing response time',
+      'Built Python REST APIs for an AI-powered image-to-text processing platform and integrated React.js frontend workflows with AWS S3 storage',
+    ],
+    startDate: 'Aug 2021',
+    endDate: 'Sept 2023',
+    technologies: [
+      {
+        name: 'ASP.NET',
+        href: 'https://dotnet.microsoft.com/en-us/apps/aspnet',
+        icon: <DotNet />,
+      },
+      {
+        name: 'SQL Server',
+        href: 'https://www.microsoft.com/en-us/sql-server',
+        icon: <SqlServer />,
+      },
+      {
+        name: 'JavaScript',
+        href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript',
+        icon: <JavaScript />,
+      },
+      {
+        name: 'React.js',
+        href: 'https://react.dev/',
+        icon: <ReactIcon />,
+      },
+      {
+        name: 'Python',
+        href: 'https://www.python.org/',
+        icon: <Python />,
+      },
+      {
+        name: 'Azure Databricks',
+        href: 'https://azure.microsoft.com/en-us/products/databricks/',
+        icon: <Azure />,
+      },
+      {
+        name: 'AWS S3',
+        href: 'https://aws.amazon.com/s3/',
+        icon: <AWS />,
+      },
+    ],
+    website: '',
   },
 ];

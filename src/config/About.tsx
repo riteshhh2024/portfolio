@@ -18,5 +18,5 @@ export const mySkills = [
 
 export const about = {
   name: 'Ritesh Prajapati',
-  description: `Software Engineer with 2.6+ years of experience building backend platforms and AI-driven enterprise applications. Specialized in designing and deploying LLM-powered, agentic systems including multi-agent orchestration, RAG pipelines, and tool-calling workflows. Hands-on with Python, .NET, LangChain/LangGraph, vector databases, and cloud-native architectures.`,
+  description: `Software Engineer with 4.7+ years of experience building backend platforms, enterprise AI applications, and generative AI workflows. Specialized in designing and deploying LLM-powered, agentic systems including multi-agent orchestration, RAG pipelines, and tool-calling workflows. Hands-on with Python, .NET, LangChain/LangGraph, vector databases, Azure AI Foundry, AWS, and cloud-native architectures.`,
 };
