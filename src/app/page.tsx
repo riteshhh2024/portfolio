@@ -6,7 +6,6 @@ import Github from '@/components/landing/Github';
 import HeroSidebar from '@/components/landing/HeroSidebar';
 import Journey from '@/components/landing/Journey';
 import LeetCode from '@/components/landing/LeetCode';
-import OpenSourceContributions from '@/components/landing/OpenSourceContributions';
 import Work from '@/components/landing/Projects';
 import Setup from '@/components/landing/Setup';
 import React from 'react';
@@ -32,7 +31,6 @@ export default function page() {
             <main className="min-w-0 flex-1">
               <Experience />
               <Work />
-              <OpenSourceContributions />
               <About />
               <Github />
               <LeetCode />

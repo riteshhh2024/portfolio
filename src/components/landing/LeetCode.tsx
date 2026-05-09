@@ -33,8 +33,18 @@ function LeetCodeIcon({ className }: { className?: string }) {
 /* ── Submission Heatmap ── */
 
 const MONTH_LABELS = [
-  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
 ];
 
 function getIntensityClass(count: number): string {
@@ -81,7 +91,8 @@ function buildCalendarGrid(submissionCalendar: Record<string, number>): {
 
     // Lookup count by unix timestamp (seconds) — LeetCode keys are UTC midnight
     const unixSec = Math.floor(
-      Date.UTC(cursor.getFullYear(), cursor.getMonth(), cursor.getDate()) / 1000
+      Date.UTC(cursor.getFullYear(), cursor.getMonth(), cursor.getDate()) /
+        1000,
     );
     const count = submissionCalendar[String(unixSec)] ?? 0;
     totalSubmissions += count;
@@ -112,7 +123,7 @@ function SubmissionHeatmap({
 }) {
   const { weeks, monthPositions, totalSubmissions } = useMemo(
     () => buildCalendarGrid(submissionCalendar),
-    [submissionCalendar]
+    [submissionCalendar],
   );
 
   return (
@@ -120,41 +131,46 @@ function SubmissionHeatmap({
       {/* Header */}
       <div className="mb-3 flex items-center justify-between">
         <span className="text-muted-foreground text-xs">
-          <span className="text-foreground font-semibold">{totalSubmissions}</span>{' '}
+          <span className="text-foreground font-semibold">
+            {totalSubmissions}
+          </span>{' '}
           submissions in the past year
         </span>
       </div>
 
-      {/* Month labels */}
-      <div className="relative mb-1 ml-0" style={{ height: 14 }}>
-        {monthPositions.map((m, i) => (
-          <span
-            key={i}
-            className="text-muted-foreground absolute text-[10px]"
-            style={{ left: m.col * 13 }}
-          >
-            {m.label}
-          </span>
-        ))}
-      </div>
+      {/* Scrollable container for month labels + grid together */}
+      <div className="overflow-x-auto pb-1">
+        {/* Month labels */}
+        <div className="relative mb-1 ml-0" style={{ height: 14 }}>
+          {monthPositions.map((m, i) => (
+            <span
+              key={i}
+              className="text-muted-foreground absolute text-[10px]"
+              style={{ left: m.col * 13 }}
+            >
+              {m.label}
+            </span>
+          ))}
+        </div>
 
-      {/* Grid */}
-      <div className="flex gap-[3px] overflow-x-auto pb-1">
-        {weeks.map((week, wi) => (
-          <div key={wi} className="flex flex-col gap-[3px]">
-            {week.map((day, di) => (
-              <div
-                key={di}
-                className={`h-[10px] w-[10px] rounded-[2px] transition-colors ${getIntensityClass(day.count)}`}
-                title={`${day.date.toLocaleDateString('en-US', {
-                  month: 'short',
-                  day: 'numeric',
-                  year: 'numeric',
-                })}: ${day.count} submission${day.count !== 1 ? 's' : ''}`}
-              />
-            ))}
-          </div>
-        ))}
+        {/* Grid */}
+        <div className="flex gap-[3px]">
+          {weeks.map((week, wi) => (
+            <div key={wi} className="flex flex-col gap-[3px]">
+              {week.map((day, di) => (
+                <div
+                  key={di}
+                  className={`h-[10px] w-[10px] rounded-[2px] transition-colors ${getIntensityClass(day.count)}`}
+                  title={`${day.date.toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                  })}: ${day.count} submission${day.count !== 1 ? 's' : ''}`}
+                />
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Legend */}
@@ -263,7 +279,7 @@ export default function LeetCode() {
               <span className="text-foreground text-2xl font-bold tabular-nums">
                 {stats.solved.total}
               </span>
-              <div className="flex items-center gap-1.5 flex-wrap">
+              <div className="flex flex-wrap items-center gap-1.5">
                 <span className="text-[10px] font-medium text-green-500">
                   E {stats.solved.easy}
                 </span>
@@ -286,7 +302,9 @@ export default function LeetCode() {
               <span className="text-foreground text-2xl font-bold tabular-nums">
                 {stats.totalActiveDays}
               </span>
-              <span className="text-muted-foreground text-[11px]">this year</span>
+              <span className="text-muted-foreground text-[11px]">
+                this year
+              </span>
             </div>
 
             {/* Ranking */}
@@ -299,11 +317,13 @@ export default function LeetCode() {
                   ? stats.ranking > 999999
                     ? (stats.ranking / 1000000).toFixed(1) + 'M'
                     : stats.ranking > 9999
-                    ? Math.round(stats.ranking / 1000) + 'K'
-                    : stats.ranking.toLocaleString()
+                      ? Math.round(stats.ranking / 1000) + 'K'
+                      : stats.ranking.toLocaleString()
                   : '—'}
               </span>
-              <span className="text-muted-foreground text-[11px]">global rank</span>
+              <span className="text-muted-foreground text-[11px]">
+                global rank
+              </span>
             </div>
           </div>
 
