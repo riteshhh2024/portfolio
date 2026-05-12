@@ -106,6 +106,16 @@ function checkRateLimit(clientIP: string): {
   };
 }
 
+function getOpenRouterApiKey(): string | null {
+  const apiKey = process.env.OPENROUTER_API_KEY?.trim();
+
+  if (!apiKey || apiKey === 'your-openrouter-api-key') {
+    return null;
+  }
+
+  return apiKey;
+}
+
 export async function POST(request: NextRequest) {
   try {
     const clientIP = getClientIP(request);
@@ -128,11 +138,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = getOpenRouterApiKey();
     if (!apiKey) {
-      console.error('GEMINI_API_KEY not configured');
+      console.error('OPENROUTER_API_KEY not configured');
       return NextResponse.json(
-        { error: 'AI service not configured' },
+        {
+          error:
+            'AI service not configured. Add OPENROUTER_API_KEY to .env.local.',
+        },
         { status: 500 },
       );
     }
@@ -140,50 +153,49 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const validatedData = chatSchema.parse(body);
 
-    // Prepare the request body for Gemini REST API
-    const requestBody = {
-      contents: [
-        {
-          parts: [{ text: systemPrompt }],
-          role: 'user',
-        },
-        {
-          parts: [
-            { text: 'I understand. I will act as your portfolio assistant.' },
-          ],
-          role: 'model',
-        },
-        // Add conversation history
-        ...validatedData.history.map((msg) => ({
-          ...msg,
-          parts: msg.parts.map((part) => ({
-            ...part,
-            text: msg.role === 'user' ? sanitizeInput(part.text) : part.text,
-          })),
-        })),
-        // Add current message
-        {
-          parts: [{ text: sanitizeInput(validatedData.message) }],
-          role: 'user',
-        },
-      ],
-      generationConfig: {
-        maxOutputTokens: 512,
-        temperature: 0.7,
-        topP: 0.8,
-        topK: 40,
+    const messages = [
+      {
+        content: systemPrompt,
+        role: 'system',
       },
+      ...validatedData.history.map((msg) => ({
+        content: msg.parts
+          .map((part) =>
+            msg.role === 'user' ? sanitizeInput(part.text) : part.text,
+          )
+          .join('\n'),
+        role: msg.role === 'user' ? 'user' : 'assistant',
+      })),
+      {
+        content: sanitizeInput(validatedData.message),
+        role: 'user',
+      },
+    ];
+
+    // Prepare the request body for OpenRouter's OpenAI-compatible API
+    const requestBody = {
+      max_tokens: 512,
+      messages,
+      model: process.env.OPENROUTER_MODEL?.trim() || 'openrouter/auto',
+      stream: true,
+      temperature: 0.7,
+      top_p: 0.8,
     };
 
-    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:streamGenerateContent?alt=sse&key=${apiKey}`;
-
-    const response = await fetch(geminiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+    const response = await fetch(
+      'https://openrouter.ai/api/v1/chat/completions',
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+          'HTTP-Referer':
+            process.env.NEXT_PUBLIC_URL || 'http://localhost:3000',
+          'X-Title': 'Ritesh Prajapati Portfolio',
+        },
+        body: JSON.stringify(requestBody),
       },
-      body: JSON.stringify(requestBody),
-    });
+    );
 
     if (!response.ok) {
       if (response.status === 429) {
@@ -193,8 +205,8 @@ export async function POST(request: NextRequest) {
         );
       }
       const errorBody = await response.text();
-      console.error('Gemini API error:', response.status, errorBody);
-      throw new Error(`Gemini API error: ${response.status}`);
+      console.error('OpenRouter API error:', response.status, errorBody);
+      throw new Error(`OpenRouter API error: ${response.status}`);
     }
 
     const encoder = new TextEncoder();
@@ -202,11 +214,23 @@ export async function POST(request: NextRequest) {
     const stream = new ReadableStream({
       async start(controller) {
         try {
+          let sentDone = false;
+
           const parser = createParser({
             onEvent: (event) => {
               try {
+                if (event.data === '[DONE]') {
+                  if (!sentDone) {
+                    controller.enqueue(
+                      encoder.encode('data: {"done": true}\n\n'),
+                    );
+                    sentDone = true;
+                  }
+                  return;
+                }
+
                 const data = JSON.parse(event.data);
-                const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+                const text = data?.choices?.[0]?.delta?.content;
                 if (text) {
                   // Send as Server-Sent Event format
                   const sseData = `data: ${JSON.stringify({ text })}\n\n`;
@@ -233,7 +257,9 @@ export async function POST(request: NextRequest) {
           }
 
           // Send completion signal
-          controller.enqueue(encoder.encode('data: {"done": true}\n\n'));
+          if (!sentDone) {
+            controller.enqueue(encoder.encode('data: {"done": true}\n\n'));
+          }
           controller.close();
         } catch (error) {
           console.error('Streaming error:', error);

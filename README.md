@@ -42,7 +42,8 @@ Create a `.env.local` file in the root directory:
 ```env
 TELEGRAM_BOT_TOKEN="your-token"
 TELEGRAM_CHAT_ID="your-chat-id"
-GEMINI_API_KEY="your-api-key"
+OPENROUTER_API_KEY=""
+OPENROUTER_MODEL=""
 NODE_ENV="development"
 NEXT_PUBLIC_URL="http://localhost:3000"
 NEXT_PUBLIC_UMAMI_SRC="your-umami-script-url"
@@ -72,12 +73,14 @@ SPOTIFY_REFRESH_TOKEN=""
 ## Getting Started
 
 1. Clone this repository:
+
    ```bash
    git clone https://github.com/riteshhh2024/portfolio.git
    cd portfolio
    ```
 
 2. Install dependencies:
+
    ```bash
    bun install
    # or
@@ -85,6 +88,7 @@ SPOTIFY_REFRESH_TOKEN=""
    ```
 
 3. Run the development server:
+
    ```bash
    bun dev
    # or
@@ -97,18 +101,18 @@ SPOTIFY_REFRESH_TOKEN=""
 
 All content lives in `src/config/`:
 
-| File | Controls |
-|---|---|
-| `Hero.tsx` | Hero section, skills, description |
-| `About.tsx` | About section & skill icons |
-| `Experience.tsx` | Work experience & technologies |
-| `Projects.tsx` | Project cards & tech stack |
-| `OpenSource.tsx` | Open source contributions |
-| `Navbar.tsx` | Navigation links |
-| `Footer.tsx` | Footer links |
-| `Meta.tsx` | SEO & metadata |
-| `Contact.tsx` | Contact form settings |
-| `Cat.ts` | Enable/disable the cursor cat |
+| File             | Controls                          |
+| ---------------- | --------------------------------- |
+| `Hero.tsx`       | Hero section, skills, description |
+| `About.tsx`      | About section & skill icons       |
+| `Experience.tsx` | Work experience & technologies    |
+| `Projects.tsx`   | Project cards & tech stack        |
+| `OpenSource.tsx` | Open source contributions         |
+| `Navbar.tsx`     | Navigation links                  |
+| `Footer.tsx`     | Footer links                      |
+| `Meta.tsx`       | SEO & metadata                    |
+| `Contact.tsx`    | Contact form settings             |
+| `Cat.ts`         | Enable/disable the cursor cat     |
 
 ## Adding Projects
 

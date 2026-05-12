@@ -152,7 +152,7 @@ const ChatBubble: React.FC = () => {
 
   const sendMessage = async (messageText: string, botMessageId: number) => {
     try {
-      // Prepare conversation history for Gemini API format
+      // Prepare conversation history for the chat API format
       const history = messages.slice(-10).map((msg) => ({
         role: msg.sender === 'user' ? ('user' as const) : ('model' as const),
         parts: [{ text: msg.text }],
@@ -170,10 +170,21 @@ const ChatBubble: React.FC = () => {
       });
 
       if (!response.ok) {
-        if (response.status === 429) {
-          throw new Error('Rate limit reached. Please wait a moment and try again.');
+        let errorMessage = `HTTP error! status: ${response.status}`;
+
+        try {
+          const errorData = await response.json();
+          if (typeof errorData?.error === 'string') {
+            errorMessage = errorData.error;
+          }
+        } catch {
+          // Keep the status-based fallback if the server did not return JSON.
         }
-        throw new Error(`HTTP error! status: ${response.status}`);
+
+        if (response.status === 429) {
+          throw new Error(errorMessage);
+        }
+        throw new Error(errorMessage);
       }
 
       const reader = response.body?.getReader();
@@ -240,7 +251,10 @@ const ChatBubble: React.FC = () => {
           msg.id === botMessageId
             ? {
                 ...msg,
-                text: error instanceof Error ? error.message : "I'm sorry, I'm having trouble responding right now. Please try again later.",
+                text:
+                  error instanceof Error
+                    ? error.message
+                    : "I'm sorry, I'm having trouble responding right now. Please try again later.",
                 isStreaming: false,
               }
             : msg,
